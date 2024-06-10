@@ -27,4 +27,4 @@ We are using a mock sqlite database found [here](https://github.com/dtaivpp/car_
 
 ## Running The Script
 
-There is a single script that contains all the code `main.py`
+There is a single script that contains all the code `main2.py`
