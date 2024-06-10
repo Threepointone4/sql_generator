@@ -1,0 +1,83 @@
+CREATE TABLE Customers (
+    customer_id INTEGER(10) PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    gender VARCHAR(6),
+    household_income INTEGER(12),
+    birthdate DATE,
+    phone_number INTEGER(10),
+    email VARCHAR(128)
+);
+CREATE TABLE Customer_Ownership (
+    customer_id INTEGER(10),
+    vin INTEGER(10),
+    purchase_date DATE,
+    purchase_price INTEGER(10),
+    warrantee_expire_date DATE,
+    dealer_id INTEGER(10),
+    PRIMARY KEY (customer_id, vin),
+    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),
+    FOREIGN KEY (vin) REFERENCES Car_Vins(vin),
+    FOREIGN KEY (dealer_id) REFERENCES Dealers(dealer_id)
+);
+CREATE TABLE Car_Vins (
+    vin INTEGER(10) PRIMARY KEY,
+    model_id INTEGER(10),
+    option_set_id INTEGER(10),
+    manufactured_date DATE,
+    manufactured_plant_id INTEGER(10),
+    FOREIGN KEY (model_id) REFERENCES Models(model_id),
+    FOREIGN KEY (option_set_id) REFERENCES Car_Options(option_set_id),
+    FOREIGN KEY (manufactured_plant_id) REFERENCES Manufacture_Plant(manufacture_plant_id)
+);
+CREATE TABLE Models (
+    model_id INTEGER(10) PRIMARY KEY,
+    model_name VARCHAR(50),
+    model_base_price INTEGER(10),
+    brand_id INTEGER(10),
+    FOREIGN KEY (brand_id) REFERENCES Brands(brand_id)
+);
+CREATE TABLE Manufacture_Plant (
+    manufacture_plant_id INTEGER(10) PRIMARY KEY,
+    plant_name VARCHAR(50),
+    plant_type VARCHAR(7),
+    plant_location VARCHAR(100),
+    company_owned BIT
+);
+CREATE TABLE Car_Options (
+    option_set_id INTEGER(10) PRIMARY KEY,
+    model_id INTEGER(10),
+    engine_id INTEGER(10),
+    transmission_id INTEGER(10),
+    chassis_id INTEGER(10),
+    premium_sound_id INTEGER(10),
+    color INTEGER(10),
+    option_set_price INTEGER(10),
+    FOREIGN KEY (model_id) REFERENCES Models(model_id)
+);
+CREATE TABLE Car_Parts (
+    part_id INTEGER(10) PRIMARY KEY,
+    part_name VARCHAR(100),
+    manufacture_plant_id INTEGER(10),
+    manufacture_start_date DATE,
+    manufacture_end_date DATE,
+    part_recall BIT,
+    FOREIGN KEY (manufacture_plant_id) REFERENCES Manufacture_Plant(manufacture_plant_id)
+);
+CREATE TABLE Brands (
+    brand_id INTEGER(10) PRIMARY KEY,
+    brand_name VARCHAR(50)
+);
+CREATE TABLE Dealer_Brand (
+    dealer_id INTEGER(10),
+    brand_id INTEGER(10),
+    PRIMARY KEY (dealer_id, brand_id),
+    FOREIGN KEY (dealer_id) REFERENCES Dealers(dealer_id),
+    FOREIGN KEY (brand_id) REFERENCES Brands(brand_id)
+);
+CREATE TABLE Dealers (
+    dealer_id INTEGER(10) PRIMARY KEY,
+    dealer_name VARCHAR(50),
+    dealer_address INTEGER(10)
+);
+
